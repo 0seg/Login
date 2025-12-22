@@ -1,7 +1,7 @@
 # install.ps1
-# Script de instalación para Windows (PowerShell)
+# Installation script for Windows (PowerShell)
 
-Write-Host "Creando entorno virtual de Python en backend..."
+Write-Host "Creating Python virtual environment in backend..."
 cd backend
 python -m venv venv
 .\venv\Scripts\Activate.ps1
@@ -9,11 +9,11 @@ pip install --upgrade pip
 pip install -r requirements.txt
 cd ..
 
-Write-Host "Instalando dependencias de Node.js en frontend..."
+Write-Host "Installing Node.js dependencies in frontend..."
 cd frontend
 npm install
 cd ..
 
-Write-Host "Listo. Puedes iniciar el backend y frontend manualmente."
-Write-Host "Para backend: cd backend; .\venv\Scripts\Activate.ps1; uvicorn app.main:app --reload"
-Write-Host "Para frontend: cd frontend; npm run dev"
+Write-Host "Done. You can now start the backend and frontend manually."
+Write-Host "To start backend: cd backend; .\venv\Scripts\Activate.ps1; uvicorn app.main:app --reload"
+Write-Host "To start frontend: cd frontend; npm run dev"
