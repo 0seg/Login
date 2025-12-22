@@ -47,70 +47,70 @@ Login App is a full-stack authentication system featuring a modern React fronten
 
 ## Installation
 
-### Instalación automática (recomendada)
+### Automatic Installation (Recommended)
 
-Puedes usar los scripts incluidos para automatizar la instalación de dependencias tanto del backend como del frontend.
+You can use the included scripts to automate the installation of dependencies for both backend and frontend.
 
-#### En Windows (PowerShell):
+#### On Windows (PowerShell):
 
 ```powershell
 ./install.ps1
 ```
 
-#### En Unix/Linux/Mac:
+#### On Unix/Linux/Mac:
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-Estos scripts crearán el entorno virtual de Python, instalarán los requirements del backend y las dependencias de Node.js en el frontend.
+These scripts will create the Python virtual environment, install backend requirements, and install Node.js dependencies for the frontend.
 
-Al finalizar, sigue las instrucciones que aparecen en pantalla para arrancar el backend y el frontend.
+After completion, follow the on-screen instructions to start the backend and frontend servers.
 
 ---
 
-### Instalación manual
+### Manual Installation
 
 #### Backend Setup
 
-1. Navega al directorio `backend`:
+1. Navigate to the `backend` directory:
    ```bash
    cd backend
    ```
-2. (Recomendado) Crea y activa un entorno virtual:
+2. (Recommended) Create and activate a virtual environment:
    ```bash
    python -m venv venv
-   # En Windows
+   # On Windows
    venv\Scripts\activate
-   # En Mac/Linux
+   # On Mac/Linux
    source venv/bin/activate
    ```
-3. Instala las dependencias:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Inicia el servidor FastAPI:
+4. Start the FastAPI server:
    ```bash
    uvicorn app.main:app --reload
    ```
-   El backend estará disponible en `http://localhost:8000`.
+   The backend will be available at `http://localhost:8000`.
 
 #### Frontend Setup
 
-1. Navega al directorio `frontend`:
+1. Navigate to the `frontend` directory:
    ```bash
    cd frontend
    ```
-2. Instala las dependencias:
+2. Install dependencies:
    ```bash
    npm install
    ```
-3. Inicia la app de React:
+3. Start the React app:
    ```bash
    npm run dev
    ```
-   El frontend estará disponible en `http://localhost:5173`.
+   The frontend will be available at `http://localhost:5173`.
 
 ## Usage
 
