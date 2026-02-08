@@ -1,156 +1,246 @@
-# Login App
+# 🔐 Sistema de Autenticación - Aplicación Profesional de Login
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-Frontend-blue?logo=react" alt="React"/>
-  <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" alt="FastAPI"/>
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License"/>
+  <img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react&style=flat-square" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&style=flat-square" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi&style=flat-square" alt="FastAPI"/>
+  <img src="https://img.shields.io/badge/Vite-7.2-646CFF?logo=vite&style=flat-square" alt="Vite"/>
+  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="Licencia MIT"/>
 </p>
 
-## Overview
+---
 
-Login App is a full-stack authentication system featuring a modern React frontend and a FastAPI backend. It allows users to register, log in, and manage their sessions securely. The project is designed for easy deployment and extensibility, following best practices for security and code organization.
+## 📋 Descripción General
 
-## Table of Contents
+Un **sistema de autenticación de nivel profesional** con un frontend React moderno y responsivo en TypeScript y un backend FastAPI robusto. Incluye gestión completa de usuarios, edición de perfiles, características avanzadas de seguridad de contraseñas y un dashboard en tiempo real. Perfecto para portfolios profesionales e implementación en producción.
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-  - [Backend Setup](#backend-setup)
-  - [Frontend Setup](#frontend-setup)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+### ✨ Características Principales
 
-## Features
+- **Interfaz Moderna y Elegante** - Diseño glassmorphism con animaciones suaves y gradientes
+- **TypeScript 100%** - Codebase frontend completamente tipado y seguro
+- **Autenticación Segura** - Tokens JWT con expiración de 30 minutos
+- **Protección contra Ataques** - Rate limiting (5 intentos por 5 minutos)
+- **Características Avanzadas** - Editar perfil, cambiar contraseña, reset con tokens
+- **Diseño Profesional** - Tema oscuro con esquema de colores púrpura y cian
+- **Diseño Responsivo** - Compatible con desktop, tablet y dispositivos móviles
 
-- User registration
-- JWT-based authentication and session management
-- Responsive and modern UI
-- Secure password hashing
-- Modular and scalable codebase
+## 🎯 Funcionalidades
 
-## Tech Stack
+### Autenticación
 
-- **Frontend:** React, Vite, JavaScript, CSS
-- **Backend:** FastAPI, Python
-- **Database:** SQLite (can be replaced with PostgreSQL, MySQL, etc.)
+- ✅ Registro de usuarios con validación de correo electrónico
+- ✅ Login seguro con usuario y contraseña
+- ✅ Gestión de sesiones basada en JWT (tokens de 30 minutos)
+- ✅ Rate limiting (5 intentos de login por 5 minutos)
+- ✅ Logout automático y gestión de sesiones
+- ✅ Validación de fortaleza de contraseña
 
-## Prerequisites
+### Gestión de Usuarios
 
-- Node.js >= 16.x
-- npm >= 8.x
-- Python >= 3.9
-- pip
+- ✅ Visualización del perfil de usuario con información de cuenta
+- ✅ Edición de perfil (usuario, correo electrónico, detalles de cuenta)
+- ✅ Cambio de contraseña con validación
+- ✅ Recuperación de contraseña con tokens seguros
+- ✅ Indicadores de estado de cuenta
+- ✅ Seguimiento de fecha de membresía
 
-## Installation
+### Interfaz y Experiencia de Usuario (UI/UX)
 
-### Automatic Installation (Recommended)
+- ✅ Tema oscuro con efectos glassmorphism
+- ✅ Animaciones suaves y transiciones fluidas
+- ✅ Validación de formularios con retroalimentación visual
+- ✅ Navegación responsiva con sidebar
+- ✅ Interfaz de configuración con pestañas
+- ✅ Notificaciones Toast para feedback del usuario
 
-You can use the included scripts to automate the installation of dependencies for both backend and frontend.
+## 🛠 Stack Tecnológico
 
-#### On Windows (PowerShell):
+| Capa                     | Tecnología                   | Versión    |
+| ------------------------ | ---------------------------- | ---------- |
+| **Frontend**             | React + TypeScript           | 19.2 + 5.3 |
+| **Herramienta de Build** | Vite                         | 7.2        |
+| **Estado Frontend**      | React Hooks                  | -          |
+| **Estilos**              | CSS3 (Variables, Gradientes) | -          |
+| **Backend**              | FastAPI                      | 0.104+     |
+| **Lenguaje**             | Python                       | 3.9+       |
+| **Base de Datos**        | SQLAlchemy + SQLite          | -          |
+| **Autenticación**        | PyJWT + bcrypt               | -          |
+| **Seguridad**            | python-jose                  | -          |
+
+## 📦 Requisitos Previos
+
+- **Node.js** >= 20.19 o >= 22.12
+- **npm** >= 8.x
+- **Python** >= 3.9
+- **pip**
+
+## ⚡ Inicio Rápido
+
+### Opción 1: Instalación Automática (Recomendado)
+
+#### Windows (PowerShell):
 
 ```powershell
 ./install.ps1
 ```
 
-#### On Unix/Linux/Mac:
+#### Unix/Linux/Mac:
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-These scripts will create the Python virtual environment, install backend requirements, and install Node.js dependencies for the frontend.
+### Opción 2: Instalación Manual
 
-After completion, follow the on-screen instructions to start the backend and frontend servers.
+#### Backend
 
----
+```bash
+# Navegar a la carpeta backend
+cd backend
 
-### Manual Installation
+# Crear entorno virtual
+python -m venv venv
 
-#### Backend Setup
+# Activar (Windows)
+venv\Scripts\activate
+# Activar (Mac/Linux)
+source venv/bin/activate
 
-1. Navigate to the `backend` directory:
-   ```bash
-   cd backend
-   ```
-2. (Recommended) Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   # On Windows
-   venv\Scripts\activate
-   # On Mac/Linux
-   source venv/bin/activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Start the FastAPI server:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-   The backend will be available at `http://localhost:8000`.
+# Instalar dependencias
+pip install -r requirements.txt
 
-#### Frontend Setup
-
-1. Navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the React app:
-   ```bash
-   npm run dev
-   ```
-   The frontend will be available at `http://localhost:5173`.
-
-## Usage
-
-1. Open your browser and go to `http://localhost:5173`.
-2. Register a new user or log in with your credentials.
-3. Explore the app's features.
-
-## Project Structure
-
-```
-backend/
-  app/
-    auth.py
-    database.py
-    main.py
-    models.py
-    schemas.py
-  requirements.txt
-frontend/
-  src/
-    api.js
-    App.jsx
-    components/
-      Login.jsx
-      Register.jsx
-  package.json
-  vite.config.js
+# Iniciar servidor (se ejecuta en http://localhost:8000)
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-## Contributing
+#### Frontend
 
-Contributions are welcome! Please open an issue or submit a pull request for suggestions or improvements.
+```bash
+# Navegar a la carpeta frontend
+cd frontend
 
-## License
+# Instalar dependencias
+npm install
 
-This project is licensed under the MIT License.
+# Iniciar servidor de desarrollo (se ejecuta en http://localhost:5173)
+npm run dev
+```
 
-## Contact
+## 🚀 Uso
 
-For questions, feedback, or business inquiries, please contact:
+1. Abre **http://localhost:5173** en tu navegador
+2. **Regístrate** con una nueva cuenta o **inicia sesión** con tus credenciales
+3. **Explora las funcionalidades:**
+   - Visualiza tu perfil en el dashboard
+   - Accede a Configuración mediante el icono ⚙️
+   - Edita tu perfil, cambio de contraseña o resetéala
+   - Cierra sesión de forma segura
 
-- **Project Maintainer:** [Your Name](mailto:your.email@example.com)
-- **GitHub Issues:** [Open an issue](https://github.com/yourusername/your-repo/issues)
+## 📁 Estructura del Proyecto
+
+```
+Login/
+├── backend/
+│   ├── app/
+│   │   ├── auth.py              # Utilidades de JWT y contraseñas
+│   │   ├── database.py          # Configuración de SQLAlchemy
+│   │   ├── main.py              # Aplicación FastAPI y endpoints
+│   │   ├── models.py            # Modelos ORM de SQLAlchemy
+│   │   └── schemas.py           # Esquemas Pydantic de request/response
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api.js               # Funciones cliente API
+│   │   ├── App.css              # Estilos globales
+│   │   ├── App.tsx              # Componente principal
+│   │   ├── main.tsx             # Punto de entrada de React
+│   │   ├── components/
+│   │   │   ├── Login.tsx
+│   │   │   ├── Register.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Settings.tsx
+│   │   │   ├── EditProfile.tsx
+│   │   │   ├── ChangePassword.tsx
+│   │   │   └── ResetPassword.tsx
+│   │   ├── hooks/
+│   │   │   ├── useAuth.ts       # Hook de contexto de autenticación
+│   │   │   └── useToast.ts      # Hook de notificaciones Toast
+│   │   ├── styles/
+│   │   │   ├── Dashboard.css
+│   │   │   ├── Settings.css
+│   │   │   ├── EditProfile.css
+│   │   │   └── ChangePassword.css
+│   │   ├── types/
+│   │   │   └── index.ts         # Interfaces TypeScript
+│   │   └── utils/
+│   │       └── validation.ts    # Utilidades de validación de formularios
+│   ├── package.json
+│   ├── tsconfig.json            # Configuración de TypeScript
+│   └── vite.config.js           # Configuración de Vite
+│
+├── install.ps1                  # Script instalador Windows
+├── install.sh                   # Script instalador Unix
+└── README.md
+```
+
+## 🔌 Endpoints de la API
+
+### Autenticación
+
+| Método | Endpoint    | Descripción                           |
+| ------ | ----------- | ------------------------------------- |
+| POST   | `/register` | Registrar nuevo usuario               |
+| POST   | `/login`    | Login de usuario, devuelve token JWT  |
+| POST   | `/logout`   | Logout de usuario, invalida la sesión |
+
+### Gestión de Usuarios
+
+| Método | Endpoint           | Descripción                                   |
+| ------ | ------------------ | --------------------------------------------- |
+| GET    | `/me`              | Obtener perfil del usuario actual             |
+| PUT    | `/me`              | Actualizar perfil de usuario                  |
+| POST   | `/change-password` | Cambiar contraseña de usuario                 |
+| POST   | `/forgot-password` | Solicitar token de recuperación de contraseña |
+| POST   | `/reset-password`  | Resetear contraseña con token                 |
+
+## 🔒 Características de Seguridad
+
+- **Encriptación de Contraseñas**: bcrypt con salt (10 rondas)
+- **Autenticación JWT**: Expiración de tokens en 30 minutos
+- **Rate Limiting**: 5 intentos de login por 5 minutos
+- **Protección CORS**: Configurada para producción
+- **Prevención de SQL Injection**: ORM de SQLAlchemy
+- **Tokens de Recuperación**: Tokens criptográficamente seguros con expiración
+- **Validación de Entrada**: Esquemas Pydantic con validación estricta
+
+## 🎨 Diseño e Interfaz
+
+- **Paleta de Colores**: Azul marino oscuro (#0f172a) con acentos índigo (#6366f1) y cian (#06b6d4)
+- **Tipografía**: Familia Inter para un aspecto moderno y limpio
+- **Efectos**: Glassmorphism con desenfoque trasero y animaciones suaves
+- **Diseño Responsivo**: Mobile-first con puntos de quiebre para todos los dispositivos
+- **Accesibilidad**: Contraste de colores compatible con WCAG y navegación por teclado
+
+## 📝 Desarrollo
+
+### Build para Producción
+
+**Frontend:**
+
+```bash
+cd frontend
+npm run build
+# Output en dist/
+```
+
+**Backend**: Usar servidor ASGI de producción como Gunicorn:
+
+```bash
+gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
+```
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia **MIT** - consulta el archivo LICENSE para más detalles.

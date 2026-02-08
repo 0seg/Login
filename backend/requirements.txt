@@ -4,3 +4,5 @@ sqlalchemy
 pydantic
 python-jose
 bcrypt
+email-validator
+python-multipart
