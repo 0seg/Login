@@ -223,24 +223,6 @@ Login/
 - **Diseño Responsivo**: Mobile-first con puntos de quiebre para todos los dispositivos
 - **Accesibilidad**: Contraste de colores compatible con WCAG y navegación por teclado
 
-## 📝 Desarrollo
-
-### Build para Producción
-
-**Frontend:**
-
-```bash
-cd frontend
-npm run build
-# Output en dist/
-```
-
-**Backend**: Usar servidor ASGI de producción como Gunicorn:
-
-```bash
-gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker
-```
-
 ## 📄 Licencia
 
 Este proyecto está bajo la licencia **MIT** - consulta el archivo LICENSE para más detalles.
