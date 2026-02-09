@@ -137,7 +137,27 @@ npm run dev
    - Edita tu perfil, cambio de contraseña o resetéala
    - Cierra sesión de forma segura
 
-## 📁 Estructura del Proyecto
+## � Galería del Proyecto
+
+### Interfaz de Autenticación
+
+![Login](./screenshots/login.png)
+_Pantalla de inicio de sesión con validación en tiempo real_
+
+### Registro de Usuario
+
+![Registro](./screenshots/register.png)
+_Formulario de registro con validación de contraseña avanzada_
+
+### Dashboard y Gestión de Usuarios
+
+![Dashboard](./screenshots/dashboard.png)
+_Panel de bienvenida con información del usuario_
+
+![Editar Perfil](./screenshots/settings.png)
+_Panel de configuración y preferencias_
+
+## �📁 Estructura del Proyecto
 
 ```
 Login/
