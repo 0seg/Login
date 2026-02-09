@@ -147,7 +147,7 @@ _Pantalla de inicio de sesión con validación en tiempo real_
 ### Registro de Usuario
 
 ![Registro](./screenshots/register.png)
-_Formulario de registro con validación de contraseña avanzada_
+_Formulario de registro con validación de correo electrónico y fortaleza de contraseña_
 
 ### Dashboard y Gestión de Usuarios
 
