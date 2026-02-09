@@ -137,7 +137,7 @@ npm run dev
    - Edita tu perfil, cambio de contraseña o resetéala
    - Cierra sesión de forma segura
 
-## � Galería del Proyecto
+## Galería del Proyecto
 
 ### Interfaz de Autenticación
 
@@ -154,10 +154,10 @@ _Formulario de registro con validación de contraseña avanzada_
 ![Dashboard](./screenshots/dashboard.png)
 _Panel de bienvenida con información del usuario_
 
-![Editar Perfil](./screenshots/settings.png)
+![Configuración](./screenshots/settings.png)
 _Panel de configuración y preferencias_
 
-## �📁 Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
 Login/
