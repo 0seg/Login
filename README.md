@@ -155,7 +155,7 @@ _Formulario de registro con validación de correo electrónico y fortaleza de co
 _Panel de bienvenida con información del usuario_
 
 ![Configuración](./screenshots/settings.png)
-_Panel de configuración y preferencias_
+_Panel de configuración con pestañas para editar perfil y cambiar contraseña_
 
 ## 📁 Estructura del Proyecto
 
