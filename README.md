@@ -10,7 +10,7 @@
 
 ---
 
-## Descripción breve (mi proyecto)
+## Descripción breve
 
 Esta es mi versión personal de una app de autenticación full‑stack. La hice para mi portafolio y para tener un proyecto real que muestre cómo conecto frontend y backend, cómo manejo sesiones y cómo resuelvo flujos clave como registro, login y recuperación de contraseña.
 
@@ -25,9 +25,9 @@ En pocas palabras:
 
 - Registro, inicio de sesión y cierre de sesión (JWT)
 - Renovación de `accessToken` mediante `refreshToken` (sesiones persistentes)
-- Recuperación y reseteo de contraseña con token de un solo uso (flujo dev)
+- Recuperación y reseteo de contraseña con token de un solo uso.
 - Edición de perfil y cambio de contraseña desde la UI
-- Rate limiting básico para intentos de login (implementación in-memory para demo)
+- Rate limiting básico para intentos de login.
 - Notificaciones tipo toast y validación de formularios en el frontend
 
 ## Stack tecnológico
