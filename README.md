@@ -1,4 +1,4 @@
-# 🔐 Sistema de Autenticación - Aplicación Profesional de Login
+# 🔐 Login — Aplicación de Autenticación (Frontend + Backend)
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-19.2-61DAFB?logo=react&style=flat-square" alt="React"/>
@@ -10,239 +10,102 @@
 
 ---
 
-## 📋 Descripción General
+## Descripción breve (mi proyecto)
 
-Un **sistema de autenticación de nivel profesional** con un frontend React moderno y responsivo en TypeScript y un backend FastAPI robusto. Incluye gestión completa de usuarios, edición de perfiles, características avanzadas de seguridad de contraseñas y un dashboard en tiempo real. Perfecto para portfolios profesionales e implementación en producción.
+Esta es mi versión personal de una app de autenticación full‑stack. La hice para mi portafolio y para tener un proyecto real que muestre cómo conecto frontend y backend, cómo manejo sesiones y cómo resuelvo flujos clave como registro, login y recuperación de contraseña.
 
-### ✨ Características Principales
+En pocas palabras:
 
-- **Interfaz Moderna y Elegante** - Diseño glassmorphism con animaciones suaves y gradientes
-- **TypeScript 100%** - Codebase frontend completamente tipado y seguro
-- **Autenticación Segura** - Tokens JWT con expiración de 30 minutos
-- **Protección contra Ataques** - Rate limiting (5 intentos por 5 minutos)
-- **Características Avanzadas** - Editar perfil, cambiar contraseña, reset con tokens
-- **Diseño Profesional** - Tema oscuro con esquema de colores púrpura y cian
-- **Diseño Responsivo** - Compatible con desktop, tablet y dispositivos móviles
+- Frontend en React + TypeScript con un cliente API que renueva tokens automáticamente.
+- Backend en FastAPI con código modular (auth, modelos, esquemas).
+- Seguridad práctica: contraseñas hasheadas con `bcrypt`, JWTs (access + refresh).
+- Flujo de reseteo pensado para desarrollo: el token se imprime en consola y aparece en un toast para pruebas rápidas.
 
-## 🎯 Funcionalidades
+## Principales funcionalidades
 
-### Autenticación
+- Registro, inicio de sesión y cierre de sesión (JWT)
+- Renovación de `accessToken` mediante `refreshToken` (sesiones persistentes)
+- Recuperación y reseteo de contraseña con token de un solo uso (flujo dev)
+- Edición de perfil y cambio de contraseña desde la UI
+- Rate limiting básico para intentos de login (implementación in-memory para demo)
+- Notificaciones tipo toast y validación de formularios en el frontend
 
-- ✅ Registro de usuarios con validación de correo electrónico
-- ✅ Login seguro con usuario y contraseña
-- ✅ Gestión de sesiones basada en JWT (tokens de 30 minutos)
-- ✅ Rate limiting (5 intentos de login por 5 minutos)
-- ✅ Logout automático y gestión de sesiones
-- ✅ Validación de fortaleza de contraseña
+## Stack tecnológico
 
-### Gestión de Usuarios
+- Frontend: React, TypeScript, Vite
+- Backend: FastAPI, Python, SQLAlchemy
+- Hashing: bcrypt (contraseñas)
+- Base de datos (dev): SQLite (configurable)
 
-- ✅ Visualización del perfil de usuario con información de cuenta
-- ✅ Edición de perfil (usuario, correo electrónico, detalles de cuenta)
-- ✅ Cambio de contraseña con validación
-- ✅ Recuperación de contraseña con tokens seguros
-- ✅ Indicadores de estado de cuenta
-- ✅ Seguimiento de fecha de membresía
+## Requisitos
 
-### Interfaz y Experiencia de Usuario (UI/UX)
+- Node.js (recomendado >= 20)
+- npm
+- Python 3.10+
 
-- ✅ Tema oscuro con efectos glassmorphism
-- ✅ Animaciones suaves y transiciones fluidas
-- ✅ Validación de formularios con retroalimentación visual
-- ✅ Navegación responsiva con sidebar
-- ✅ Interfaz de configuración con pestañas
-- ✅ Notificaciones Toast para feedback del usuario
+## Inicio rápido (desarrollo)
 
-## 🛠 Stack Tecnológico
+1. Instalar dependencias (backend)
 
-| Capa                     | Tecnología                   | Versión    |
-| ------------------------ | ---------------------------- | ---------- |
-| **Frontend**             | React + TypeScript           | 19.2 + 5.3 |
-| **Herramienta de Build** | Vite                         | 7.2        |
-| **Estado Frontend**      | React Hooks                  | -          |
-| **Estilos**              | CSS3 (Variables, Gradientes) | -          |
-| **Backend**              | FastAPI                      | 0.104+     |
-| **Lenguaje**             | Python                       | 3.9+       |
-| **Base de Datos**        | SQLAlchemy + SQLite          | -          |
-| **Autenticación**        | PyJWT + bcrypt               | -          |
-| **Seguridad**            | python-jose                  | -          |
-
-## 📦 Requisitos Previos
-
-- **Node.js** >= 20.19 o >= 22.12
-- **npm** >= 8.x
-- **Python** >= 3.9
-- **pip**
-
-## ⚡ Inicio Rápido
-
-### Opción 1: Instalación Automática (Recomendado)
-
-#### Windows (PowerShell):
+PowerShell:
 
 ```powershell
-./install.ps1
-```
-
-#### Unix/Linux/Mac:
-
-```bash
-chmod +x install.sh
-./install.sh
-```
-
-### Opción 2: Instalación Manual
-
-#### Backend
-
-```bash
-# Navegar a la carpeta backend
 cd backend
-
-# Crear entorno virtual
 python -m venv venv
-
-# Activar (Windows)
-venv\Scripts\activate
-# Activar (Mac/Linux)
-source venv/bin/activate
-
-# Instalar dependencias
+venv\Scripts\Activate
 pip install -r requirements.txt
-
-# Iniciar servidor (se ejecuta en http://localhost:8000)
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-#### Frontend
+Unix/macOS:
 
 ```bash
-# Navegar a la carpeta frontend
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+2. Ejecutar backend (por defecto en http://localhost:8000)
+
+```bash
+cd backend
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+3. Instalar y arrancar frontend
+
+```bash
 cd frontend
-
-# Instalar dependencias
 npm install
-
-# Iniciar servidor de desarrollo (se ejecuta en http://localhost:5173)
 npm run dev
 ```
 
-## 🚀 Uso
+Abre http://localhost:5173 en tu navegador.
 
-1. Abre **http://localhost:5173** en tu navegador
-2. **Regístrate** con una nueva cuenta o **inicia sesión** con tus credenciales
-3. **Explora las funcionalidades:**
-   - Visualiza tu perfil en el dashboard
-   - Accede a Configuración mediante el icono ⚙️
-   - Edita tu perfil, cambio de contraseña o resetéala
-   - Cierra sesión de forma segura
+## Endpoints principales
 
-## Galería del Proyecto
+- `POST /register` — crear usuario
+- `POST /login` — iniciar sesión (devuelve accessToken + refreshToken)
+- `POST /refresh` — obtener nuevo accessToken usando refreshToken
+- `GET /me` — obtener datos del usuario autenticado
+- `POST /forgot-password` — solicitar token de recuperación (dev: token mostrado en consola/toast)
+- `POST /reset-password` — resetear contraseña con token
 
-### Interfaz de Autenticación
-
-![Login](./screenshots/login.png)
-_Pantalla de inicio de sesión con validación en tiempo real_
-
-### Registro de Usuario
-
-![Registro](./screenshots/register.png)
-_Formulario de registro con validación de correo electrónico y fortaleza de contraseña_
-
-### Dashboard y Gestión de Usuarios
-
-![Dashboard](./screenshots/dashboard.png)
-_Panel de bienvenida con información del usuario_
-
-![Configuración](./screenshots/settings.png)
-_Panel de configuración con pestañas para editar perfil y cambiar contraseña_
-
-## 📁 Estructura del Proyecto
+## Estructura de carpetas (resumen)
 
 ```
 Login/
-├── backend/
-│   ├── app/
-│   │   ├── auth.py              # Utilidades de JWT y contraseñas
-│   │   ├── database.py          # Configuración de SQLAlchemy
-│   │   ├── main.py              # Aplicación FastAPI y endpoints
-│   │   ├── models.py            # Modelos ORM de SQLAlchemy
-│   │   └── schemas.py           # Esquemas Pydantic de request/response
-│   └── requirements.txt
-│
-├── frontend/
-│   ├── src/
-│   │   ├── api.js               # Funciones cliente API
-│   │   ├── App.css              # Estilos globales
-│   │   ├── App.tsx              # Componente principal
-│   │   ├── main.tsx             # Punto de entrada de React
-│   │   ├── components/
-│   │   │   ├── Login.tsx
-│   │   │   ├── Register.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── Settings.tsx
-│   │   │   ├── EditProfile.tsx
-│   │   │   ├── ChangePassword.tsx
-│   │   │   └── ResetPassword.tsx
-│   │   ├── hooks/
-│   │   │   ├── useAuth.ts       # Hook de contexto de autenticación
-│   │   │   └── useToast.ts      # Hook de notificaciones Toast
-│   │   ├── styles/
-│   │   │   ├── Dashboard.css
-│   │   │   ├── Settings.css
-│   │   │   ├── EditProfile.css
-│   │   │   └── ChangePassword.css
-│   │   ├── types/
-│   │   │   └── index.ts         # Interfaces TypeScript
-│   │   └── utils/
-│   │       └── validation.ts    # Utilidades de validación de formularios
-│   ├── package.json
-│   ├── tsconfig.json            # Configuración de TypeScript
-│   └── vite.config.js           # Configuración de Vite
-│
-├── install.ps1                  # Script instalador Windows
-├── install.sh                   # Script instalador Unix
-└── README.md
+├─ backend/
+│  └─ app/ (auth.py, main.py, models.py, schemas.py, database.py)
+├─ frontend/
+│  └─ src/ (components, hooks, api.ts, App.tsx)
+└─ README.md
 ```
 
-## 🔌 Endpoints de la API
+## Capturas
 
-### Autenticación
+Incluye imágenes en `./screenshots/` para mostrar la UI (login, registro, dashboard, settings).
 
-| Método | Endpoint    | Descripción                           |
-| ------ | ----------- | ------------------------------------- |
-| POST   | `/register` | Registrar nuevo usuario               |
-| POST   | `/login`    | Login de usuario, devuelve token JWT  |
-| POST   | `/logout`   | Logout de usuario, invalida la sesión |
+## Licencia
 
-### Gestión de Usuarios
-
-| Método | Endpoint           | Descripción                                   |
-| ------ | ------------------ | --------------------------------------------- |
-| GET    | `/me`              | Obtener perfil del usuario actual             |
-| PUT    | `/me`              | Actualizar perfil de usuario                  |
-| POST   | `/change-password` | Cambiar contraseña de usuario                 |
-| POST   | `/forgot-password` | Solicitar token de recuperación de contraseña |
-| POST   | `/reset-password`  | Resetear contraseña con token                 |
-
-## 🔒 Características de Seguridad
-
-- **Encriptación de Contraseñas**: bcrypt con salt (10 rondas)
-- **Autenticación JWT**: Expiración de tokens en 30 minutos
-- **Rate Limiting**: 5 intentos de login por 5 minutos
-- **Protección CORS**: Configurada para producción
-- **Prevención de SQL Injection**: ORM de SQLAlchemy
-- **Tokens de Recuperación**: Tokens criptográficamente seguros con expiración
-- **Validación de Entrada**: Esquemas Pydantic con validación estricta
-
-## 🎨 Diseño e Interfaz
-
-- **Paleta de Colores**: Azul marino oscuro (#0f172a) con acentos índigo (#6366f1) y cian (#06b6d4)
-- **Tipografía**: Familia Inter para un aspecto moderno y limpio
-- **Efectos**: Glassmorphism con desenfoque trasero y animaciones suaves
-- **Diseño Responsivo**: Mobile-first con puntos de quiebre para todos los dispositivos
-- **Accesibilidad**: Contraste de colores compatible con WCAG y navegación por teclado
-
-## 📄 Licencia
-
-Este proyecto está bajo la licencia **MIT** - consulta el archivo LICENSE para más detalles.
+Licencia MIT — ver archivo `LICENSE`.

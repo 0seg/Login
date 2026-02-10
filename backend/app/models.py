@@ -14,5 +14,7 @@ class User(Base):
     is_active: bool = Column(Boolean, default=True)
     reset_token: str = Column(String, nullable=True)
     reset_token_expires: datetime = Column(DateTime(timezone=True), nullable=True)
+    refresh_token: str = Column(String, nullable=True)
+    refresh_token_expires: datetime = Column(DateTime(timezone=True), nullable=True)
     created_at: datetime = Column(DateTime(timezone=True), server_default=func.now())
     updated_at: datetime = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

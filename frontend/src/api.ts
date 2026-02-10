@@ -55,6 +55,41 @@ export async function fetchCurrentUser(token: string): Promise<User> {
   return response.json();
 }
 
+export async function forgotPassword(
+  email: string,
+): Promise<{ message: string; token: string }> {
+  const response = await fetch(`${API_URL}/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
+
+  return response.json();
+}
+
+export async function resetPassword(
+  token: string,
+  newPassword: string,
+): Promise<{ message: string }> {
+  const response = await fetch(`${API_URL}/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, new_password: newPassword }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
+
+  return response.json();
+}
+
 export async function updateProfile(
   token: string,
   username: string,
@@ -78,89 +113,78 @@ export async function updateProfile(
   return response.json();
 }
 
-export async function changePassword(
-  token: string,
-  currentPassword: string,
-  newPassword: string,
-): Promise<{ message: string }> {
-  const payload = {
-    current_password: currentPassword,
-    new_password: newPassword,
-  };
-  const response = await fetch(`${API_URL}/change-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
+const getAccessToken = () => localStorage.getItem("accessToken");
+const getRefreshToken = () => localStorage.getItem("refreshToken");
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || "Error al cambiar contraseña");
+async function refreshAccessToken(): Promise<boolean> {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return false;
+
+  try {
+    const response = await fetch(`${API_URL}/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!response.ok) return false;
+
+    const data = await response.json();
+    localStorage.setItem("accessToken", data.access_token);
+    if (data.refresh_token) {
+      localStorage.setItem("refreshToken", data.refresh_token);
+    }
+    return true;
+  } catch {
+    return false;
   }
-
-  return response.json();
 }
-
-export async function forgotPassword(
-  email: string,
-): Promise<{ message: string }> {
-  const payload = { email };
-  const response = await fetch(`${API_URL}/forgot-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || "Error al solicitar reset");
-  }
-
-  return response.json();
-}
-
-export async function resetPassword(
-  token: string,
-  newPassword: string,
-): Promise<{ message: string }> {
-  const payload = { token, new_password: newPassword };
-  const response = await fetch(`${API_URL}/reset-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || "Error al resetear contraseña");
-  }
-
-  return response.json();
-}
-
-const token = () => localStorage.getItem("token");
 
 export const api = {
   async get(endpoint: string) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
-      headers: { Authorization: `Bearer ${token()}` },
+    let response = await fetch(`${API_URL}${endpoint}`, {
+      headers: { Authorization: `Bearer ${getAccessToken()}` },
     });
+
+    // Si token expiró, intentar refrescar
+    if (response.status === 401) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) {
+        response = await fetch(`${API_URL}${endpoint}`, {
+          headers: { Authorization: `Bearer ${getAccessToken()}` },
+        });
+      }
+    }
+
     if (!response.ok) throw new Error(`API Error: ${response.status}`);
     return response.json();
   },
 
   async put(endpoint: string, data: Record<string, unknown>) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    let response = await fetch(`${API_URL}${endpoint}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token()}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: JSON.stringify(data),
     });
+
+    // Si token expiró, intentar refrescar
+    if (response.status === 401) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) {
+        response = await fetch(`${API_URL}${endpoint}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAccessToken()}`,
+          },
+          body: JSON.stringify(data),
+        });
+      }
+    }
+
     if (!response.ok) {
       const error = await response.json();
       throw error;
@@ -169,14 +193,30 @@ export const api = {
   },
 
   async post(endpoint: string, data: Record<string, unknown>) {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    let response = await fetch(`${API_URL}${endpoint}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token()}`,
+        Authorization: `Bearer ${getAccessToken()}`,
       },
       body: JSON.stringify(data),
     });
+
+    // Si token expiró, intentar refrescar
+    if (response.status === 401) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) {
+        response = await fetch(`${API_URL}${endpoint}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getAccessToken()}`,
+          },
+          body: JSON.stringify(data),
+        });
+      }
+    }
+
     if (!response.ok) {
       const error = await response.json();
       throw error;

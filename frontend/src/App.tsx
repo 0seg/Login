@@ -14,11 +14,22 @@ import "./App.css";
 type AppPage = "auth" | "dashboard" | "settings" | "reset";
 
 const App: FC = () => {
+  // ✅ PRIMERO: Todos los hooks ANTES de cualquier condicional
+  const { user, loading, isAuthenticated, login, logout } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentPage, setCurrentPage] = useState<AppPage>("auth");
-  const { user, loading, isAuthenticated, login, logout } = useAuth();
   const { toasts, addToast, removeToast } = useToast();
+
+  // ✅ SEGUNDO: Now you can use conditionals
+  if (loading) {
+    return <Loading />;
+  }
+
+  // Cuando carga, si está autenticado y currentPage es 'auth', ir al dashboard
+  if (isAuthenticated && currentPage === "auth") {
+    setCurrentPage("dashboard");
+  }
 
   const handleSwitch = (toLogin: boolean): void => {
     setIsAnimating(true);
@@ -28,8 +39,12 @@ const App: FC = () => {
     }, 300);
   };
 
-  const handleLoginSuccess = (userData: User, token: string): void => {
-    login(userData, token);
+  const handleLoginSuccess = (
+    userData: User,
+    accessToken: string,
+    refreshToken: string,
+  ): void => {
+    login(userData, accessToken, refreshToken);
     addToast("¡Sesión iniciada exitosamente!", "success", 2000);
     setCurrentPage("dashboard");
   };
@@ -45,8 +60,6 @@ const App: FC = () => {
     setCurrentPage("auth");
     addToast("Sesión cerrada", "info", 2000);
   };
-
-  if (loading) return <Loading />;
 
   return (
     <>
@@ -102,7 +115,12 @@ const App: FC = () => {
               </button>
             </div>
           )}
-          {currentPage === "reset" && <ResetPassword />}
+          {currentPage === "reset" && (
+            <ResetPassword
+              onGoBack={() => setCurrentPage("auth")}
+              addToast={addToast}
+            />
+          )}
         </>
       )}
 

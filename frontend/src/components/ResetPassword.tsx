@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { api } from "../api";
+import { forgotPassword, resetPassword } from "../api";
 import "../styles/ResetPassword.css";
 
 type Step = "email" | "token" | "newPassword" | "success";
 
-const ResetPassword: React.FC = () => {
+interface ResetPasswordProps {
+  onGoBack: () => void;
+  addToast: (
+    message: string,
+    type: "success" | "error" | "info" | "warning",
+    duration?: number,
+  ) => void;
+}
+
+const ResetPassword: React.FC<ResetPasswordProps> = ({
+  onGoBack,
+  addToast,
+}) => {
   const [currentStep, setCurrentStep] = useState<Step>("email");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -25,15 +37,39 @@ const ResetPassword: React.FC = () => {
 
     setLoading(true);
     try {
-      await api.post("/forgot-password", { email });
-      setCurrentStep("token");
+      const response = await forgotPassword(email);
+      console.log("Response:", response);
+      if (response && response.token) {
+        setResetToken(response.token);
+        console.log("Token recibido:", response.token);
+        addToast(`🔑 Tu token: ${response.token}`, "success", 5000);
+        setCurrentStep("token");
+      } else {
+        addToast("No se recibió token", "error");
+      }
     } catch (err: any) {
-      setErrors({
-        email: err.response?.data?.detail || "Error al solicitar reset",
-      });
+      console.error("Error:", err);
+      addToast(err.detail || "Error al solicitar reset", "error");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleTokenSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    console.log("Token a validar:", resetToken);
+
+    if (!resetToken || resetToken.trim() === "") {
+      console.log("Token vacío");
+      setErrors({ token: "Token requerido" });
+      addToast("⚠️ Ingresa el token", "warning");
+      return;
+    }
+
+    console.log("Token válido, pasando a nueva contraseña");
+    setCurrentStep("newPassword");
   };
 
   const handlePasswordReset = async (e: React.FormEvent) => {
@@ -61,15 +97,13 @@ const ResetPassword: React.FC = () => {
 
     setLoading(true);
     try {
-      await api.post("/reset-password", {
-        token: resetToken,
-        new_password: newPassword,
-      });
+      await resetPassword(resetToken, newPassword);
+      addToast("✅ Contraseña actualizada correctamente", "success", 2000);
       setCurrentStep("success");
     } catch (err: any) {
+      addToast(err.detail || "Error al resetear contraseña", "error");
       setErrors({
-        newPassword:
-          err.response?.data?.detail || "Error al resetear contraseña",
+        newPassword: err.detail || "Error al resetear contraseña",
       });
     } finally {
       setLoading(false);
@@ -79,7 +113,28 @@ const ResetPassword: React.FC = () => {
   return (
     <div className="reset-password-container">
       <div className="reset-card">
-        <h2>🔐 Recuperar Contraseña</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <h2 style={{ margin: 0 }}>🔐 Recuperar Contraseña</h2>
+          <button
+            onClick={onGoBack}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "24px",
+              padding: "0",
+            }}
+          >
+            ✕
+          </button>
+        </div>
 
         {currentStep === "email" && (
           <form onSubmit={handleEmailSubmit}>
@@ -101,28 +156,50 @@ const ResetPassword: React.FC = () => {
               {loading ? "Enviando..." : "📧 Enviar Token"}
             </button>
             <p className="hint">
-              Recibirás un token de recuperación en tu email
+              Recibirás un token de 6 dígitos en un mensaje
             </p>
           </form>
         )}
 
         {currentStep === "token" && (
-          <form onSubmit={() => setCurrentStep("newPassword")}>
+          <form onSubmit={handleTokenSubmit}>
             <div className="form-group">
-              <label>Ingresa el Token</label>
-              <input
-                type="text"
-                value={resetToken}
-                onChange={(e) => {
-                  setResetToken(e.target.value);
-                  setErrors({});
-                }}
-                placeholder="Token de recuperación"
-              />
+              <label>Verifica el Token</label>
+              {resetToken ? (
+                <>
+                  <div
+                    style={{
+                      backgroundColor: "#f5f5f5",
+                      padding: "15px",
+                      borderRadius: "4px",
+                      textAlign: "center",
+                      fontSize: "32px",
+                      letterSpacing: "8px",
+                      fontWeight: "bold",
+                      fontFamily: "monospace",
+                      marginBottom: "10px",
+                      color: "#000000",
+                    }}
+                  >
+                    {resetToken}
+                  </div>
+                  <input type="hidden" value={resetToken} />
+                </>
+              ) : (
+                <div style={{ color: "red", padding: "10px" }}>
+                  ⚠️ No se recibió token. Intenta de nuevo.
+                </div>
+              )}
               {errors.token && <span className="error">{errors.token}</span>}
-              <p className="hint">Token de prueba en la consola del servidor</p>
+              <p className="hint">
+                {resetToken
+                  ? "Token recibido. Haz click en Confirmar para continuar."
+                  : "Espera un momento..."}
+              </p>
             </div>
-            <button type="submit">↪️ Continuar</button>
+            <button type="submit" disabled={!resetToken}>
+              ✓ Confirmar Token
+            </button>
           </form>
         )}
 
@@ -183,9 +260,20 @@ const ResetPassword: React.FC = () => {
             <h3>¡Contraseña Actualizada!</h3>
             <p>Tu contraseña ha sido reseteada correctamente.</p>
             <p>Ahora puedes iniciar sesión con tu nueva contraseña.</p>
-            <a href="/" className="home-link">
+            <button
+              onClick={onGoBack}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "14px",
+              }}
+            >
               ← Volver a Inicio de Sesión
-            </a>
+            </button>
           </div>
         )}
       </div>

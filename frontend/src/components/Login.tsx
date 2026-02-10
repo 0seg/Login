@@ -5,7 +5,11 @@ import "../App.css";
 
 interface LoginProps {
   onSwitch: () => void;
-  onSuccess: (userData: User, token: string) => void;
+  onSuccess: (
+    userData: User,
+    accessToken: string,
+    refreshToken: string,
+  ) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onSwitch, onSuccess }) => {
@@ -31,10 +35,11 @@ const Login: React.FC<LoginProps> = ({ onSwitch, onSuccess }) => {
 
     try {
       const tokenData = await login(username, password);
-      localStorage.setItem("token", tokenData.access_token);
+      localStorage.setItem("accessToken", tokenData.access_token);
+      localStorage.setItem("refreshToken", tokenData.refresh_token);
 
       const userData = await fetchCurrentUser(tokenData.access_token);
-      onSuccess(userData, tokenData.access_token);
+      onSuccess(userData, tokenData.access_token, tokenData.refresh_token);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {

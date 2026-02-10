@@ -6,7 +6,7 @@ interface UseAuthReturn {
   user: User | null;
   loading: boolean;
   error: string | null;
-  login: (userData: User, token: string) => void;
+  login: (userData: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -17,38 +17,40 @@ export function useAuth(): UseAuthReturn {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem("token");
+    const accessToken = localStorage.getItem("accessToken");
 
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const userData = await fetchCurrentUser(token);
-        setUser(userData);
-        setError(null);
-      } catch (err) {
-        localStorage.removeItem("token");
-        setError(err instanceof Error ? err.message : "Error desconocido");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    verifyToken();
+    if (accessToken) {
+      fetchCurrentUser(accessToken)
+        .then((userData) => {
+          setUser(userData);
+        })
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   }, []);
 
-  const login = (userData: User, token: string): void => {
+  const login = (
+    userData: User,
+    accessToken: string,
+    refreshToken: string,
+  ): void => {
     setUser(userData);
-    localStorage.setItem("token", token);
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
     setError(null);
   };
 
   const logout = (): void => {
     setUser(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setError(null);
   };
 
@@ -58,6 +60,6 @@ export function useAuth(): UseAuthReturn {
     error,
     login,
     logout,
-    isAuthenticated: !!user && !!localStorage.getItem("token"),
+    isAuthenticated: !!user && !!localStorage.getItem("accessToken"),
   };
 }
